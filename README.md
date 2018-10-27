@@ -16,4 +16,4 @@ $ sudo http://shadowsocksr-speed.py
 url: //输入入SSR订阅链接
 ```
 
-![](https://file-temp.oss-cn-beijing.aliyuncs.com/20181028001243.png)
+![](https://file-temp.oss-cn-beijing.aliyuncs.com/201810280012.png)
