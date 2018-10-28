@@ -12,7 +12,7 @@ SSR的windows版本中有“服务器链接统计”功能。能检测出有效�
 
 ```
 $ pip3 install PySocks
-$ sudo http://shadowsocksr-speed.py
+$ sudo python3 shadowsocksr-speed.py
 url: //输入入SSR订阅链接
 ```
 
