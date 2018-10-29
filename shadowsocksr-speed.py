@@ -6,8 +6,12 @@ import time
 import requests
 import ParseSsr #https://www.jianshu.com/p/81b1632bea7f
 import re
+import youtube_speed
 from prettytable import PrettyTable
 
+import socket
+import socks
+default_socket = socket.socket
 
 only_check_network=False
 
@@ -30,8 +34,7 @@ def connect_ssr(ssr):
 
     print("----------------------------")
     print(ssr['remarks']+"/"+ssr['server'])
-    import socket
-    import socks
+
     socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", int(port))
     socket.socket = socks.socksocket
     ip=requests.get('http://api.ip.sb/ip',timeout=15).text
@@ -67,10 +70,17 @@ def connect_ssr(ssr):
         print(result['ping'],"/",result['ping_pc'])
         print(result['download'],"Mbit/s")
         print(result['upload'],"Mbit/s")
+        socket.socket=default_socket
+        youtube=youtube_speed.test_speed(port)
+        youtube=int(re.sub("\D", "", youtube))
+        result['youtube']=youtube
     else:
+        socket.socket=default_socket
+        result['youtube']=youtube_speed.test_speed(port)
         result['download']=0
         result['upload']=0
         result['ping']=0
+        result['youtube']=0
         result['state']="Success"
     return result
 
@@ -82,6 +92,7 @@ def connect_ssr(ssr):
     result['download']=0
     result['upload']=0
     result['ping']=0
+    result['youtube']=0
     result['state']="Fail"
     cmd="ping -c 1 %s |grep 'time=' | awk '{print $8}' |cut -b 6-"% result['host']
     ping_pc=os.popen(cmd).readlines()#.strip()
@@ -112,17 +123,17 @@ for s in ssr_config:
 speed_result.append(connect_ssr(ssr_config[4]))#通过解析后的配置信息链接节点进行测速
 
 #将测速结果生产为表格
-table=PrettyTable(["name","ip","localPing","ping","upload","download"])
-table.sortby = "download"#以"download"下载速度为排序根据
+table=PrettyTable(["name","ip","localPing","ping","upload","download","youtube"])
+table.sortby = "youtube"#以"download"下载速度为排序根据
 table.reversesort = True
 for t in speed_result:
-    table.add_row([t['remarks'],t['ip'],t['ping_pc'],t['ping'],t['upload'],t['download']])
+    table.add_row([t['remarks'],t['ip'],t['ping_pc'],t['ping'],t['upload'],t['download'],t['youtube']])
 print(table)
 
 
 # for s in ssr_config:
 #   speed_result=connect_ssr(s)#通过解析后的配置信息链接节点进行测速
 #   print(speed_result)
-#   table.add_row([speed_result['remarks'],speed_result['ip'],speed_result['ping_pc'],speed_result['ping'],speed_result['upload'],speed_result['download']])
+#   table.add_row([speed_result['remarks'],speed_result['ip'],speed_result['ping_pc'],speed_result['ping'],speed_result['upload'],speed_result['download'],speed_result['youtube']])
 #   print(table)
 
