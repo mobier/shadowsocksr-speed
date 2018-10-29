@@ -4,7 +4,7 @@
 目前调用的是speedtest的测速接口，后期会加入youtube，以及自定义服务器的测试功能  
 使用独立端口进行测速，不会影响正常浏览体验，建议非游戏用户以下载带宽优先  
 目前支持sspanel/v2/v3版本，443/常规订阅链接  
-测试速度的话单个节点，ping和模拟请求需要5S，带宽测试22S，Youtube20s   
+测试速度的话单个节点，ping和模拟请求需要5S，带宽测试22S，Youtube    20s  
 
 ## 同类型的工具
 
@@ -21,4 +21,4 @@ $ sudo python3 shadowsocksr-speed.py
 url: //输入入SSR订阅链接
 ```
 
-![](https://file-temp.oss-cn-beijing.aliyuncs.com/201810280012.png)
+![](https://file-temp.oss-cn-beijing.aliyuncs.com/201810300049.png)
