@@ -15,11 +15,11 @@ import socket
 import socks
 default_socket = socket.socket
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1080)
-socket.socket = socks.socksocket
+# socket.socket = socks.socksocket
 # socket.socket='socket.socket'
-print(default_socket)
-print(type('socket.socket'))
-# import socket
+# print(default_socket)
+# print(type('socket.socket'))
+# # import socket
 # import socks
 # default_socket = socket.socket
 # socket.socket=default_socket
@@ -27,4 +27,4 @@ print(type('socket.socket'))
 # socket.shut_rdwr()
 # help(socket)
 
-# youtube_speed.test_speed("1080")
+youtube_speed.test_speed("1080")

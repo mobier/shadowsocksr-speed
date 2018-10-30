@@ -28,6 +28,7 @@ def test_speed(proxy_port):
         chromeOptions.add_argument("--proxy-server=socks5://127.0.0.1:%s" % proxy_port)
         chromeOptions.add_argument("--mute-audio")
         chromeOptions.add_argument("--no-sandbox")
+        chromeOptions.add_argument('lang=zh_CN.UTF-8')
         browser = webdriver.Chrome(chrome_options = chromeOptions)
         # 访问视频
         browser.get('https://www.youtube.com/watch?v=TmDKbUrSYxQ')
@@ -40,7 +41,7 @@ def test_speed(proxy_port):
 
         #判断是否有广告
         if isAD(browser):
-        	# print("ad")
+        	print("youtube_ad")
         	time.sleep(6)
         	browser.find_element_by_xpath('//div[text() = "跳过广告"]').click()
         	time.sleep(1)
@@ -48,12 +49,13 @@ def test_speed(proxy_port):
         # 设置4K画质
         # video_set=browser.find_element_by_class_name("ytp-right-controls")
         # video_set.find_elements_by_xpath('.//button')[1].click()
+        time.sleep(2.5)
         browser.find_element_by_xpath('//button[@title = "设置"]').click()
-        time.sleep(0.5)
+        time.sleep(1.5)
         browser.find_element_by_xpath('//div[text() = "画质"]').click()
-        time.sleep(0.5)
-        browser.find_element_by_xpath('//span[text() = "2160p"]').click()
         time.sleep(1)
+        browser.find_element_by_xpath('//span[text() = "2160p"]').click()
+        time.sleep(2)
 
         # 点击右键，显示速度信息
         ele = browser.find_element_by_id('movie_player')
@@ -61,7 +63,7 @@ def test_speed(proxy_port):
         action_chains.move_to_element_with_offset(ele, 100, 100).context_click().perform()
         time.sleep(1)
         browser.find_element_by_xpath('//div[text() = "详细统计信息"]').click()
-        time.sleep(5)
+        time.sleep(4)
 
 
         # print(browser.find_element_by_xpath('//*[@id="movie_player"]'))
@@ -84,6 +86,10 @@ def test_speed(proxy_port):
         return youtube_speed
     except Exception as e:
         print(e)
+        print("======================================")
+        print(browser.page_source)
+        print("======================================")
+        browser.quit()
         return 0
 
 # test_speed("1080")
