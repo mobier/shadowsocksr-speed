@@ -6,6 +6,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
+from selenium.webdriver.support.ui import WebDriverWait                            # available since 2.4.0
+from selenium.webdriver.support import expected_conditions as EC           # available since 2.26.0
+from selenium.webdriver.common.by import By
+
 
 def isAD(drive):
     try:
@@ -15,12 +19,38 @@ def isAD(drive):
         	return False
     except:
         return False
+def isVIP(drive):
+    try:
+        if(drive.find_element_by_xpath('//*[text() = "不用了"]').get_attribute('innerHTML')=="不用了"):
+            return True
+        else:
+            return False
+    except:
+        return False
+def ifButton(drive):
+    try:
+        if(drive.find_element_by_xpath('//div[text() = "画质"]').get_attribute('innerHTML')=="画质"):
+            return True
+        else:
+            return False
+    except:
+        return False
+def yt_check(drive):
+    try:
+        if(isVIP(drive)):
+            print("yt_check")
+            return True
+        else:
+            return False
+    except:
+        return False
+
 
 def test_speed(proxy_port):
     try:
         chromeOptions = webdriver.ChromeOptions()
         # 设置后台运行
-        display = Display(visible=0, size=(800, 600))
+        display = Display(visible=0, size=(1960, 1080))
         display.start()
 
         # 设置代理
@@ -33,37 +63,51 @@ def test_speed(proxy_port):
         # 访问视频
         browser.get('https://www.youtube.com/watch?v=TmDKbUrSYxQ')
         time.sleep(2)
-        #ads
-        #div class="video-ads"
-        #div videoAdUiSkipButtonExperimentalText videoAdUiFixedPaddingSkipButtonText 跳过广告
-        #div videoAdUi
-        # print(browser.find_element_by_xpath('//div[text() = "跳过广告"]').get_attribute('innerHTML'))
+
 
         #判断是否有广告
         if isAD(browser):
-        	print("youtube_ad")
-        	time.sleep(6)
-        	browser.find_element_by_xpath('//div[text() = "跳过广告"]').click()
-        	time.sleep(1)
+            print("youtube_ad")
+            time.sleep(6)
+            # WebDriverWait(browser, 20).until(EC.presence_of_element_located((By.xpath,'//div[text() = "跳过广告"]')))
+            browser.find_element_by_xpath('//div[text() = "跳过广告"]').click()
+            time.sleep(1)
+        #判断是否有youtube 推荐会员
+        if isVIP(browser):
+            print("youtube_vip")
+            # time.sleep(1)
+            # browser.find_element_by_xpath('//*[text() = "不用了"]').click()
+            # time.sleep(1)
+        print("check_end")
+        # 点击右键，显示速度信息
+        browser.implicitly_wait(30)
+        ele = browser.find_element_by_id('movie_player')
+        action_chains = ActionChains(browser)
+        action_chains.move_to_element_with_offset(ele, 50, 50).context_click().perform()
+        time.sleep(1)
+        browser.find_element_by_xpath('//div[text() = "详细统计信息"]').click()
+        time.sleep(1)
 
         # 设置4K画质
         # video_set=browser.find_element_by_class_name("ytp-right-controls")
         # video_set.find_elements_by_xpath('.//button')[1].click()
-        time.sleep(2.5)
+        # set_button = browser.find_element_by_xpath('//div[@class = "ytp-chrome-controls"]')
+        # move_chains = ActionChains(browser)
+        # move_chains.move_to_element_with_offset(set_button, 0, 10).perform()
+        # time.sleep(0.5)
+        # move_chains.move_to_element_with_offset(set_button, 487, 10).click().perform()
+        # time.sleep(1.5)
+        # move_chains.move_to_element_with_offset(set_button, 487, -100).click().perform()
+
         browser.find_element_by_xpath('//button[@title = "设置"]').click()
-        time.sleep(1.5)
+        time.sleep(0.5)
+        if not ifButton:
+            print("ifButton")
         browser.find_element_by_xpath('//div[text() = "画质"]').click()
         time.sleep(1)
         browser.find_element_by_xpath('//span[text() = "2160p"]').click()
-        time.sleep(2)
+        time.sleep(5)
 
-        # 点击右键，显示速度信息
-        ele = browser.find_element_by_id('movie_player')
-        action_chains = ActionChains(browser)
-        action_chains.move_to_element_with_offset(ele, 100, 100).context_click().perform()
-        time.sleep(1)
-        browser.find_element_by_xpath('//div[text() = "详细统计信息"]').click()
-        time.sleep(4)
 
 
         # print(browser.find_element_by_xpath('//*[@id="movie_player"]'))
@@ -86,10 +130,14 @@ def test_speed(proxy_port):
         return youtube_speed
     except Exception as e:
         print(e)
-        print("======================================")
-        print(browser.page_source)
-        print("======================================")
-        browser.quit()
-        return 0
+        # while(1):
+        #     pass
+    # except Exception as e:
+    #     print(e)
+    #     print("======================================")
+    #     print(browser.page_source)
+    #     print("======================================")
+    #     browser.quit()
+    #     return 0
 
 # test_speed("1080")

@@ -76,11 +76,12 @@ def connect_ssr(ssr):
         result['youtube']=youtube
     else:
         socket.socket=default_socket
-        result['youtube']=youtube_speed.test_speed(port)
+        youtube=youtube_speed.test_speed(port)
+        youtube=int(re.sub("\D", "", youtube))
+        result['youtube']=youtube
         result['download']=0
         result['upload']=0
         result['ping']=0
-        result['youtube']=0
         result['state']="Success"
     return result
 
