@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait                         
 from selenium.webdriver.support import expected_conditions as EC           # available since 2.26.0
 from selenium.webdriver.common.by import By
 
+Deubg=False 
 
 def isAD(drive):
     try:
@@ -35,14 +36,21 @@ def ifButton(drive):
             return False
     except:
         return False
+def ifFlash(drive):
+    try:
+        drive.find_element_by_id('movie_player')
+        return True
+    except:
+        return False
 def yt_check(drive):
     try:
         if(isVIP(drive)):
-            print("yt_check")
+            if Deubg : print("yt_check")
             return True
         else:
             return False
     except:
+        if Deubg : print("not found flash")
         return False
 
 
@@ -67,20 +75,22 @@ def test_speed(proxy_port):
 
         #判断是否有广告
         if isAD(browser):
-            print("youtube_ad")
+
+            if Deubg : print("youtube_ad")
             time.sleep(6)
             # WebDriverWait(browser, 20).until(EC.presence_of_element_located((By.xpath,'//div[text() = "跳过广告"]')))
             browser.find_element_by_xpath('//div[text() = "跳过广告"]').click()
             time.sleep(1)
         #判断是否有youtube 推荐会员
         if isVIP(browser):
-            print("youtube_vip")
+            if Deubg : print("youtube_vip")
             # time.sleep(1)
             # browser.find_element_by_xpath('//*[text() = "不用了"]').click()
             # time.sleep(1)
-        print("check_end")
+        if Deubg : print("check_end")
         # 点击右键，显示速度信息
         browser.implicitly_wait(30)
+        ifFlash(browser);
         ele = browser.find_element_by_id('movie_player')
         action_chains = ActionChains(browser)
         action_chains.move_to_element_with_offset(ele, 50, 50).context_click().perform()
@@ -102,7 +112,7 @@ def test_speed(proxy_port):
         browser.find_element_by_xpath('//button[@title = "设置"]').click()
         time.sleep(0.5)
         if not ifButton:
-            print("ifButton")
+            if Deubg : print("ifButton")
         browser.find_element_by_xpath('//div[text() = "画质"]').click()
         time.sleep(1)
         browser.find_element_by_xpath('//span[text() = "2160p"]').click()
@@ -110,33 +120,33 @@ def test_speed(proxy_port):
 
 
 
-        # print(browser.find_element_by_xpath('//*[@id="movie_player"]'))
-        # print(browser.find_element_by_css_selector(".html5-video-info-panel-content"))
-        # print(browser.find_element_by_css_selector(".html5-video-info-panel-content > div:nth-child(0)"))
+        # if Deubg : print(browser.find_element_by_xpath('//*[@id="movie_player"]'))
+        # if Deubg : print(browser.find_element_by_css_selector(".html5-video-info-panel-content"))
+        # if Deubg : print(browser.find_element_by_css_selector(".html5-video-info-panel-content > div:nth-child(0)"))
         # 获取速度
         infopanel = browser.find_element_by_class_name("html5-video-info-panel-content")
         youtube_speed=infopanel.find_elements_by_xpath('.//span')[11].get_attribute('innerHTML')
-        print(youtube_speed)
-        # print("-----------------------------------")
+        if Deubg : print(youtube_speed)
+        # if Deubg : print("-----------------------------------")
 
-        # print(video_set.find_elements_by_xpath('.//button')[1].get_attribute('innerHTML'))
+        # if Deubg : print(video_set.find_elements_by_xpath('.//button')[1].get_attribute('innerHTML'))
 
         # data=browser.find_element_by_xpath('//*[@id="movie_player"]/div[2]/div/div[7]/span/span[2]')
         # data=browser.find_element_by_xpath('//*[@id="movie_player"]/div[2]/div/div[10]/span/span[2]')
-        # print(data)
-        # print(browser.page_source)
+        # if Deubg : print(data)
+        # if Deubg : print(browser.page_source)
         # 退出浏览器
         browser.quit()
         return youtube_speed
     except Exception as e:
-        print(e)
+        if Deubg : print(e)
         # while(1):
         #     pass
     # except Exception as e:
-    #     print(e)
-    #     print("======================================")
-    #     print(browser.page_source)
-    #     print("======================================")
+    #     if Deubg : print(e)
+    #     if Deubg : print("======================================")
+    #     if Deubg : print(browser.page_source)
+    #     if Deubg : print("======================================")
     #     browser.quit()
     #     return 0
 
