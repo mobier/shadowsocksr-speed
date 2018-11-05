@@ -8,6 +8,10 @@ import time
 import curses
 import sys
 import os
+
+test_option={}
+test_option ['ping']=test_option ['network']=test_option ['speed']= test_option ['youtube']=False
+
 init (autoreset=False)
 class colored(object):
     def red(self,s):
@@ -40,8 +44,59 @@ class DrawSelectTable(object):
             self.x.add_row(content)
     def str(self):
         return str(self.x)
+def TestOption(screen):
+	Option=0
+	menubar = ["1 - All Test", "2 - Ping", "3 - Network", "4 - Speed", "5 - Youtube"]  
+	test_select=[0,0,0,0]
+	menu_len=len(menubar)
+	while True:
+		Option = 0 if Option<0 else Option
+		Option = menu_len -1 if Option > menu_len-1 else Option 
+		screen.clear()
+		menuitem = selectitem = 0
+		for m in menubar:  
+			if Option == menuitem:  
+				screen.addstr(menuitem+2, 4,m , curses.A_REVERSE)  
+			else:  
+				screen.addstr(menuitem+2, 4, m)  
+			menuitem+=1  
+		for s in test_select:
+			if s:
+				screen.addstr(selectitem+3, 2,"*")
+			selectitem+=1
+		screen.refresh()
+		
+		key = screen.getch()
+		if key in [curses.KEY_UP, ord('w'),
+			curses.KEY_DOWN, ord('s'),
+			curses.KEY_LEFT, ord('a'),
+			curses.KEY_RIGHT, ord('d'),
+			ord('g'), ord('G'), ord('0'),
+			ord('r'), ord('q'),10,32]:
+			if key in [ord('w'), curses.KEY_UP]:
+				Option -= 1
+			if key in [ord('s'), curses.KEY_DOWN]:
+				Option += 1
+			if key == ord('q'):
+				break
+			if key == 10:
+				if test_select[0]:
+					test_option['ping'] = True 
+				if test_select[1]:
+					test_option['network'] = True
+				if test_select[2]:
+					test_option['speed'] = True
+				if test_select[3]:
+					test_option['youtube'] = True
+				if Option==0:
+					test_option['youtube'] = test_option['ping'] = test_option['speed'] = test_option['network'] =True
+				break
+			if key in [32, curses.KEY_RIGHT,curses.KEY_LEFT]:
+				if(Option!=0):
+					test_select[Option-1]= not test_select[Option-1]
+				# break
 
-
+# test_ssr=[]
 def drawtable(screen):
 	# print(max_line)
 	# while True:
@@ -90,13 +145,12 @@ def drawtable(screen):
 			# screen.clear()
 			# screen.addstr(0,0 , data)
 			# screen.refresh()
-			spad = curses.newpad(1, 2)
-			spad.scrollok(1)
-			spad.idlok(1)
-			spad.addstr(str(">"))
+			# spad = curses.newpad(1, 2)
+			# spad.scrollok(1)
+			# spad.idlok(1)
+			# spad.addstr(str(">"))
 			# spad.refresh(ss_select,0,0,1,max_line,table_cols)	
 			# twin.getch()
-
 			tpad = curses.newpad(table_line, table_cols)
 			tpad.scrollok(1)
 			tpad.idlok(1)
@@ -150,6 +204,9 @@ def drawtable(screen):
 					select_flag = False
 				if key == ord('q'):
 					break
+				if key == 10:
+					return ssr_config 
+					break
 				if key == ord('r'):
 					select_table=DrawSelectTable()
 					for x in ssr_config:
@@ -166,7 +223,7 @@ def drawtable(screen):
 			sys.exit("Goodbye!")
 
 def getss():
-
+	url=input("url:")
 	ssr_config=[]
 	speed_result=[]
 	headers = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'}
@@ -186,7 +243,12 @@ def getss():
 if __name__ == "__main__":
 	term_lines = os.get_terminal_size().lines
 	term_col = os.get_terminal_size().columns
-	curses.wrapper(drawtable)
+	sss=curses.wrapper(drawtable)
+	curses.wrapper(TestOption)
+	print(test_option['ping'],test_option['network'],test_option['speed'],test_option['youtube'])
+
+	# from pprint import pprint
+	# pprint((sss))
 	
 	# print("asdas")
 	# table=PrettyTable(["name","select"])
