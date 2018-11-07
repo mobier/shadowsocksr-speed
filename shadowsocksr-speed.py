@@ -68,7 +68,7 @@ class DrawTable(object):
             self.x.add_row(content)
     def str(self):
         return str(self.x)
-
+max_cols=0
 class DrawSelectTable(object):
     def __init__(self):
         self.table=[]
@@ -78,8 +78,13 @@ class DrawSelectTable(object):
         ]
         self.x = PrettyTable(header)
     def append(self,*args,**kwargs):
+        global max_cols
         if(kwargs):
             kwargs['select'] = "√" if kwargs['select'] else "×"
+            kwargs['name']=kwargs['name'].split()[0]
+            #获取名字,长度大于窗口分辨率进行报错
+            if len(kwargs['name'])> max_cols:
+                max_cols= len(kwargs['name'])
             content=[
                 kwargs['select'],
                 kwargs['name'],
@@ -152,7 +157,12 @@ def SelectTable(screen):
     table_x=4
     table_y=0
     table_line=100
-    table_cols=100
+    table_cols=max_cols+30
+    if(term_col<table_cols):
+        print ("[x] Resize the terminal window more than %s"  % table_cols )
+        print ("[x] Current size %dx%d" % (term_col, term_lines))
+        os._exit(0)
+
     ss_select_x=3
     ss_select=3
     max_select=len(ssr_config)+3-1
@@ -165,7 +175,6 @@ def SelectTable(screen):
         try:
             if ss_select < ss_select_x : ss_select=ss_select_x 
             if ss_select > max_select : ss_select=max_select
-
 
             screen.clear()
             select_x=ss_select if ss_select < max_line else max_line -1 
