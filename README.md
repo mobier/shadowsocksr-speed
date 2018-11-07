@@ -33,18 +33,18 @@ url: //输入入SSR订阅链接
 ```
 
 ### 菜单选择
-W(up) S(down) 上下移动光标
-A(left) D(right) 空格 选择节点/测速选项
-Q退出,R 反向选择 ,回车确认表单
+W(up) S(down) 上下移动光标  
+A(left) D(right) 空格 选择节点/测速选项  
+Q退出,R 反向选择 ,回车确认表单  
 
 ----------------------
 
-同上面操作,可以单独测速,或者组合测速
-1 - All Test    下面选项全部测试 
-2 - Ping        调用本地ping 测试延迟
-3 - Network    使用节点网络访问ip.sb判断是否可用
-4 - Speed        调用speedtest脚本测试准确上下行带宽
-5 - Youtube    模拟浏览器访问4k视频获取加载视频速度(有一定几率报错)
+同上面操作,可以单独测速,或者组合测速  
+1 - All Test    下面选项全部测试   
+2 - Ping        调用本地ping 测试延迟  
+3 - Network    使用节点网络访问ip.sb判断是否可用  
+4 - Speed        调用speedtest脚本测试准确上下行带宽  
+5 - Youtube    模拟浏览器访问4k视频获取加载视频速度(有一定几率报错)  
 
 
 ![](https://file-temp.oss-cn-beijing.aliyuncs.com/2.png)
