@@ -13,8 +13,26 @@ import youtube_speed
 
 import socket
 import socks
+import time
+import subprocess
+import signal
+# import shlex 
+
 default_socket = socket.socket
 socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1080)
+cmd ="python /home/null/.config/electron-ssr/shadowsocksr/shadowsocks/local.py -s kr2.pyjiaoyi.cf -p 10384 -k EoWjVthG -m chacha20-ietf -O auth_aes128_md5 -o http_simple -g download.windowsupdate.com -b 127.0.0.1 -l 1088"
+# cmd = shlex(cmd)
+a = subprocess.Popen(cmd, shell=False)
+# os.system(cmd)
+# p=os.popen(cmd)
+print("sadsd")
+time.sleep(5)
+# a.send_signal(signal.CTRL_C_EVENT)
+a.terminate()
+print("close")
+
+# while True:
+# 	print("asdsad")
 # socket.socket = socks.socksocket
 # socket.socket='socket.socket'
 # print(default_socket)
@@ -27,4 +45,4 @@ socks.set_default_proxy(socks.SOCKS5, "127.0.0.1", 1080)
 # socket.shut_rdwr()
 # help(socket)
 
-youtube_speed.test_speed("1080")
+# youtube_speed.test_speed("1080")

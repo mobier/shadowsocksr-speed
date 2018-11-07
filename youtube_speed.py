@@ -58,7 +58,7 @@ def test_speed(proxy_port):
     try:
         chromeOptions = webdriver.ChromeOptions()
         # 设置后台运行
-        display = Display(visible=0, size=(1960, 1080))
+        display = Display(visible=0, size=(800, 600))
         display.start()
 
         # 设置代理
@@ -137,9 +137,12 @@ def test_speed(proxy_port):
         # if Deubg : print(browser.page_source)
         # 退出浏览器
         browser.quit()
+        display.stop()
         return youtube_speed
     except Exception as e:
-        if Deubg : print(e)
+        print(e)
+        browser.quit()
+        display.stop()
         # while(1):
         #     pass
     # except Exception as e:
