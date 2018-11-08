@@ -18,6 +18,8 @@ $ sudo apt-get install xvfb
 $ https://chromedriver.storage.googleapis.com //!!!!! 根据浏览器版本下载chromedriver
 $ sudo cp chromedriver /usr/bin/
 $ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama
+$ git clone https://github.com/mobier/shadowsocksr-speed.git
+$ cd shadowsocksr-speed
 $ sudo python3 shadowsocksr-speed.py
 url: //输入入SSR订阅链接
 ```
@@ -27,6 +29,8 @@ url: //输入入SSR订阅链接
 ```
 $ brew cask install chromedriver //!!!!! 建议使用 Homebrew cask 安装 chromedriver
 $ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama
+$ git clone https://github.com/mobier/shadowsocksr-speed.git
+$ cd shadowsocksr-speed
 $ sudo python3 shadowsocksr-speed.py
 url: //输入入SSR订阅链接
 选择测试节点以及测速选项
