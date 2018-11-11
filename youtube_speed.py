@@ -10,6 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait                         
 from selenium.webdriver.support import expected_conditions as EC           # available since 2.26.0
 from selenium.webdriver.common.by import By
 
+from selenium.common.exceptions import TimeoutException
+
 Deubg=False 
 
 def isAD(drive):
@@ -54,7 +56,7 @@ def yt_check(drive):
         return False
 
 
-def test_speed(proxy_port):
+def test_speed(proxy_port,out_time=15):
     try:
         chromeOptions = webdriver.ChromeOptions()
         # 设置后台运行
@@ -68,6 +70,12 @@ def test_speed(proxy_port):
         chromeOptions.add_argument("--no-sandbox")
         chromeOptions.add_argument('lang=zh_CN.UTF-8')
         browser = webdriver.Chrome(chrome_options = chromeOptions)
+        # 设置才超时时间
+        # browser.implicitly_wait(1)
+        # browser.manage().timeouts().pageLoadTimeout(2, TimeUnit.SECONDS);
+        # browser.manage().timeouts().pageLoadTimeout(10,TimeUnit.SECONDS);
+        browser.set_page_load_timeout(out_time)
+        browser.set_script_timeout(out_time)#这两种设置都进行才有效
         # 访问视频
         browser.get('https://www.youtube.com/watch?v=TmDKbUrSYxQ')
         time.sleep(2)
@@ -139,6 +147,11 @@ def test_speed(proxy_port):
         browser.quit()
         display.stop()
         return youtube_speed
+    except TimeoutException:
+        # print("youtube_timeout")
+        browser.quit()
+        display.stop()
+        return "1"
     except Exception as e:
         print(e)
         browser.quit()

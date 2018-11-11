@@ -7,6 +7,10 @@ import requests
 import ParseSsr #https://www.jianshu.com/p/81b1632bea7f
 import re
 import youtube_speed
+
+import subprocess
+import signal
+
 from prettytable import PrettyTable
 from colorama import init, Fore, Back, Style
 
@@ -20,12 +24,6 @@ default_socket = socket.socket
 
 test_option={}
 test_option ['ping']=test_option ['network']=test_option ['speed']= test_option ['youtube']=False
-max_cols=0
-# 访问 youtube 网页加载时间大于设置时间直接退出不进行测速.解决高延迟的节点加载网页太慢问题
-youtube_timeout=10
-# 使用 访问ip.sb获取外网ip的超时时间,判断节点是否能正常访问网页的依据
-network_timeout=15
-
 
 init (autoreset=False)
 class colored(object):
@@ -61,8 +59,6 @@ class DrawTable(object):
         if(kwargs):
             color=colored()
             kwargs['network'] = color.greed(kwargs['network']) if kwargs['network']=="Success" else color.red(kwargs['network'])
-            kwargs['network'] = color.greed(kwargs['network']) if kwargs['youtube']!=1 else color.red("timeout")
-            # kwargs['youtube'] = kwargs['youtube'] if kwargs['youtube'] !=1 else color.red("timeout")
             content=[
                 kwargs['name'],
                 kwargs['ip'],
@@ -76,6 +72,7 @@ class DrawTable(object):
             self.x.add_row(content)
     def str(self):
         return str(self.x)
+max_cols=0
 class DrawSelectTable(object):
     def __init__(self):
         self.table=[]
@@ -247,6 +244,7 @@ def connect_ssr(ssr):
   result['ping_pc']=0
   result['youtube']=0
   result['state']="Fail"
+  ssr_pid=0
   try:
     if not ssr['select']:
         # print ("ss_pass")
@@ -257,8 +255,11 @@ def connect_ssr(ssr):
         cmd="python shadowsocksr/shadowsocks/local.py -qq -s %s -p %s -k %s -m %s -O %s -G %s -o %s -g %s -b %s -l %s" % (ssr['server'],ssr['port'],ssr['password'],ssr['method'],ssr['protocol'],ssr['protoparam'],ssr['obfs'],ssr['obfsparam'],"127.0.0.1",port)
     else:
         cmd="python shadowsocksr/shadowsocks/local.py -qq -s %s -p %s -k %s -m %s -O %s -o %s -g %s -b %s -l %s" % (ssr['server'],ssr['port'],ssr['password'],ssr['method'],ssr['protocol'],ssr['obfs'],ssr['obfsparam'],"127.0.0.1",port)
-    os.system(cmd + " -d stop")
-    os.system(cmd + " -d start")
+    # os.system(cmd + " -d stop")
+    # os.system(cmd + " -d start")
+    ssr_subprocess = subprocess.Popen(cmd, shell=True)
+    ssr_pid=ssr_subprocess.pid
+    # print(type(ssr_subprocess))
 
     # print("----------------------------")
     print(ssr['remarks']+"/"+ssr['server'])
@@ -296,15 +297,21 @@ def connect_ssr(ssr):
 
     if test_option['youtube']:
         socket.socket=default_socket
-        youtube=youtube_speed.test_speed(port,youtube_timeout)
+        youtube=youtube_speed.test_speed(port)
         youtube=int(re.sub("\D", "", youtube))
         result['youtube']=youtube
         print("youtube_test,speed:",youtube)
     result['state']="Success"
+    os.kill(ssr_subprocess.pid, signal.SIGKILL)
+    os.kill(ssr_subprocess.pid+1 , signal.SIGKILL)
     return result
 
   except Exception as e:
     print (e)
+    print(ssr_pid)
+    os.kill(ssr_pid, signal.SIGKILL)
+    os.kill(ssr_pid+1 , signal.SIGKILL)
+    os._exit(0)
     return result
 
 url=input("url:")
