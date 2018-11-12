@@ -1,8 +1,8 @@
 import base64
 
 def fill_padding(base64_encode_str):
-   need_padding = len(base64_encode_str) % 4 != 0
-   if need_padding:
+   need_padding = len(base64_encode_str) % 4
+   if need_padding != 0:
        missing_padding = 4 - need_padding
        base64_encode_str += '=' * missing_padding
    return base64_encode_str
