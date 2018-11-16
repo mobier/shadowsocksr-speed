@@ -36,7 +36,22 @@ url: //输入入SSR订阅链接
 选择测试节点以及测速选项
 ```
 
+### Windows 用户 
+
+因为是模拟浏览器去访问`youtube`测速,无界面显示库`pyvirtualdisplay`,只支持`unix`在`win`上无法使用,`chrome`的无头模式也不好用,所以在`win`版本的测速工具中移除了这个`youtube`测速的选项,如果有好的思路解决这个问题欢迎联系我
+
+```
+pip install PySocks prettytable 
+# 进入程序目录
+python shadowsocksr-speed_win.py
+url: //输入入SSR订阅链接
+# 下一版本更新选择节点和测速选项
+```
+
+
+
 ### 菜单选择
+
 W(up) S(down) 上下移动光标  
 A(left) D(right) 空格 选择节点/测速选项  
 Q退出,R 反向选择 ,回车确认表单  

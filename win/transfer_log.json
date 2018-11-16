@@ -1,0 +1,18 @@
+{
+	"us1.pyjiaoyi.cf" : {
+		"totalUploadBytes" : 43356,
+		"totalDownloadBytes" : 105438
+	},
+	"139.196.82.179" : {
+		"totalUploadBytes" : 3100,
+		"totalDownloadBytes" : 7211
+	},
+	"us2.pyjiaoyi.cf" : {
+		"totalUploadBytes" : 10225,
+		"totalDownloadBytes" : 43240
+	},
+	"us4.pyjiaoyi.cf" : {
+		"totalUploadBytes" : 28109119,
+		"totalDownloadBytes" : 69094318
+	}
+}
