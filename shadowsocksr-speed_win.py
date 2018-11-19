@@ -11,6 +11,7 @@ import subprocess
 import re
 import socket
 import socks
+from sys import argv
 default_socket = socket.socket
 
 
@@ -134,7 +135,7 @@ def write_json(write_config):
 		json_config['configs'][0]['protocolparam']=json_config['configs'][0]['protoparam']
 	if 'port' in json_config['configs'][0]:
 		json_config['configs'][0]['server_port']=json_config['configs'][0]['port']
-	ssr_port=json_config['configs'][0]['port']
+	# ssr_port=json_config['configs'][0]['port']
 	# 将订阅的数据写入的配置文件
 	with open(json_path,'w',encoding='utf-8') as f:
 		json.dump(json_config,f,indent=4)
@@ -154,20 +155,33 @@ def close_ssr():
 ssr_config=[]
 speed_result=[]
 
-url=input("url:")
-headers = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'}
-f=urllib.request.Request(url,headers=headers)
-ssr_subscribe = urllib.request.urlopen(f).read().decode('utf-8') #获取ssr订阅链接中数据
-ssr_subscribe_decode = ParseSsr.base64_decode(ssr_subscribe)
-ssr_subscribe_decode=ssr_subscribe_decode.replace('\r','')
-ssr_subscribe_decode=ssr_subscribe_decode.split('\n')
-for i in ssr_subscribe_decode:
-    if(i):
-        decdata=str(i[6:])#去掉"SSR://"K
-        ssr_config.append(ParseSsr.parse(decdata))#解析"SSR://" 后边的base64的配置信息返回一个字典
-
+if len(argv)>1:
+	print(argv[1])
+	# file_path="win/gui-config.json"
+	file_path=argv[1]
+	file_config=None
+	with open(file_path,'r',encoding='utf-8') as f:
+		file_config=json.load(f)
+	# print(file_config['configs'])
+	for x in file_config['configs']:
+		ssr_config.append(x)
+		# print(x)
+		# print(x)
+else:
+	url=input("url:")
+	headers = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'}
+	f=urllib.request.Request(url,headers=headers)
+	ssr_subscribe = urllib.request.urlopen(f).read().decode('utf-8') #获取ssr订阅链接中数据
+	ssr_subscribe_decode = ParseSsr.base64_decode(ssr_subscribe)
+	ssr_subscribe_decode=ssr_subscribe_decode.replace('\r','')
+	ssr_subscribe_decode=ssr_subscribe_decode.split('\n')
+	for i in ssr_subscribe_decode:
+		if(i):
+			decdata=str(i[6:])#去掉"SSR://"K
+			ssr_config.append(ParseSsr.parse(decdata))#解析"SSR://" 后边的base64的配置信息返回一个字典
 table=DrawTable()
 for x in ssr_config:
+	# print(x)
 	run_ssr()
 	write_json(x)
 	speed_result=connect_ssr(x)

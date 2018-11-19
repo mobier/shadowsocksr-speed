@@ -43,7 +43,7 @@ url: //输入入SSR订阅链接
 ```
 pip install PySocks prettytable 
 # 进入程序目录
-python shadowsocksr-speed_win.py
+python shadowsocksr-speed_win.py gui-config.json(加上配置文件后不用输入订阅链接)
 url: //输入入SSR订阅链接
 # 下一版本更新选择节点和测速选项
 ```
