@@ -253,14 +253,13 @@ def connect_ssr(ssr):
         result['state']="pass"
         return result
     port="6667"
-    if('protoparam' in ssr):
-        cmd="python shadowsocksr/shadowsocks/local.py -qq -s %s -p %s -k %s -m %s -O %s -G %s -o %s -g %s -b %s -l %s" % (ssr['server'],ssr['port'],ssr['password'],ssr['method'],ssr['protocol'],ssr['protoparam'],ssr['obfs'],ssr['obfsparam'],"127.0.0.1",port)
-    else:
-        cmd="python shadowsocksr/shadowsocks/local.py -qq -s %s -p %s -k %s -m %s -O %s -o %s -g %s -b %s -l %s" % (ssr['server'],ssr['port'],ssr['password'],ssr['method'],ssr['protocol'],ssr['obfs'],ssr['obfsparam'],"127.0.0.1",port)
+    cmd="python shadowsocksr/shadowsocks/local.py -qq -s %s -p %s -k %s -m %s -O %s -o %s -b %s -l %s " % (ssr['server'],ssr['port'],ssr['password'],ssr['method'],ssr['protocol'],ssr['obfs'],"127.0.0.1",port)
+    if(len(ssr.get('protoparam',""))>1):
+        cmd+="-G %s " % ssr['protoparam']
+    if(len(ssr.get('obfsparam',""))>1):
+        cmd+="-g %s " % ssr['obfsparam']
     os.system(cmd + " -d stop")
     os.system(cmd + " -d start")
-
-    # print("----------------------------")
     print(ssr['remarks']+"/"+ssr['server'])
 
     if test_option['ping']:
