@@ -1,3 +1,5 @@
+![](https://file-temp.oss-cn-beijing.aliyuncs.com/2.png)
+
 # SSR 批量测速
 
 通过SSR的订阅链接解析，从大量的节点中判断存活并根据下载带宽进行排序生产表格，可从中选出最适合的节点  
@@ -42,7 +44,7 @@ url: //输入入SSR订阅链接
 
 ```
 pip install PySocks prettytable 
-# 进入程序目录
+# 把master分支打包下载并进入程序目录
 python shadowsocksr-speed_win.py gui-config.json(加上配置文件后不用输入订阅链接)
 url: //输入入SSR订阅链接
 # 下一版本更新选择节点和测速选项
@@ -66,4 +68,3 @@ Q退出,R 反向选择 ,回车确认表单
 5 - Youtube    模拟浏览器访问4k视频获取加载视频速度(有一定几率报错)  
 
 
-![](https://file-temp.oss-cn-beijing.aliyuncs.com/2.png)
