@@ -133,7 +133,7 @@ def test_speed(proxy_port,out_time=15):
         # if Deubg : print(browser.find_element_by_css_selector(".html5-video-info-panel-content > div:nth-child(0)"))
         # 获取速度
         infopanel = browser.find_element_by_class_name("html5-video-info-panel-content")
-        youtube_speed=infopanel.find_elements_by_xpath('.//span')[11].get_attribute('innerHTML')
+        youtube_speed=infopanel.find_elements_by_xpath('.//span')[10].get_attribute('innerHTML')
         if Deubg : print(youtube_speed)
         # if Deubg : print("-----------------------------------")
 
