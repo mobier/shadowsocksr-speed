@@ -19,7 +19,7 @@ SSR的windows版本中有“服务器链接统计”功能。能检测出有效�
 $ sudo apt-get install xvfb
 $ https://chromedriver.storage.googleapis.com //!!!!! 根据浏览器版本下载chromedriver
 $ sudo cp chromedriver /usr/bin/
-$ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama
+$ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama requests
 $ git clone https://github.com/mobier/shadowsocksr-speed.git
 $ cd shadowsocksr-speed
 $ sudo python3 shadowsocksr-speed.py
@@ -30,7 +30,7 @@ url: //输入入SSR订阅链接
 
 ```
 $ brew cask install chromedriver //!!!!! 建议使用 Homebrew cask 安装 chromedriver
-$ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama
+$ pip3 install PySocks prettytable pyvirtualdisplay selenium colorama requests
 $ git clone https://github.com/mobier/shadowsocksr-speed.git
 $ cd shadowsocksr-speed
 $ sudo python3 shadowsocksr-speed.py
@@ -43,7 +43,7 @@ url: //输入入SSR订阅链接
 因为是模拟浏览器去访问`youtube`测速,无界面显示库`pyvirtualdisplay`,只支持`unix`在`win`上无法使用,`chrome`的无头模式也不好用,所以在`win`版本的测速工具中移除了这个`youtube`测速的选项,如果有好的思路解决这个问题欢迎联系我
 
 ```
-pip install PySocks prettytable 
+pip install PySocks prettytable requests 
 # 把master分支打包下载并进入程序目录  (cd C:\Users\Dell\Downloads\shadowsocksr-speed-master)
 # 使用配置文件测速
 python shadowsocksr-speed_win.py gui-config.json(加上配置文件后不用输入订阅链接)
