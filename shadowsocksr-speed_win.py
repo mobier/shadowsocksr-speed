@@ -140,16 +140,16 @@ def write_json(write_config):
 	with open(json_path,'w',encoding='utf-8') as f:
 		json.dump(json_config,f,indent=4)
 
-#subprocess.call('taskkill /f /im ShadowsocksR-dotnet4.0.exe',stdout=subprocess.PIPE)
+#subprocess.call('taskkill /f /im ShadowsocksR-dotnet4.0-speedtest.exe',stdout=subprocess.PIPE)
 #subprocess.Popen("ShadowsocksR-dotnet4.0.exe")
 
 # 运行 ssr
 def run_ssr():
-	ssr_path="win/ShadowsocksR-dotnet4.0.exe"
+	ssr_path="win/ShadowsocksR-dotnet4.0-speedtest.exe"
 	subprocess.Popen(ssr_path)
 # 关闭ssr
 def close_ssr():
-	subprocess.call('taskkill /f /im ShadowsocksR-dotnet4.0.exe',stdout=subprocess.PIPE)
+	subprocess.call('taskkill /f /im ShadowsocksR-dotnet4.0-speedtest.exe',stdout=subprocess.PIPE)
 
 
 ssr_config=[]
