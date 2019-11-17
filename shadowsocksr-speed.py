@@ -1,3 +1,4 @@
+#coding:utf-8
 import urllib.request
 import base64
 # import shadowsocksr.shadowsocks
@@ -262,6 +263,8 @@ def connect_ssr(ssr):
     os.system(cmd + " -d start")
     print(ssr['remarks']+"/"+ssr['server'])
 
+    print (test_option)
+
     if test_option['ping']:
         ping_len="7" if isIP(result['host']) else "8"
         cmd="ping -c 5 %s |grep 'time=' | awk '{print $%s}' |cut -b 6-"% (result['host'],ping_len)
@@ -300,18 +303,20 @@ def connect_ssr(ssr):
         result['youtube']=youtube
         print("youtube_test,speed:",youtube)
     result['state']="Success"
+    os.system(cmd + " -d stop")
     return result
 
   except Exception as e:
     print (e)
+    os.system(cmd + " -d stop")
     return result
 
 url=input("url:")
 ssr_config=[]
 speed_result=[]
 headers = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'}
-f=urllib.request.Request(url,headers=headers) 
-
+f=urllib.request.Request(url,headers=headers)
+#
 ssr_subscribe = urllib.request.urlopen(f).read().decode('utf-8') #获取ssr订阅链接中数据
 ssr_subscribe_decode = ParseSsr.base64_decode(ssr_subscribe)
 ssr_subscribe_decode=ssr_subscribe_decode.replace('\r','')
